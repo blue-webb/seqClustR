@@ -63,16 +63,18 @@ seq_dtw_clustering <- function(eventlog, type, k, ..., preproc, distance,
 
   # model
 
-  dtw_model <- dtwclust::tsclust(ts_list_data_new, ...)
+  dtw_model <- dtwclust::tsclust(ts_list_data_new, type, k, ..., preproc, distance,
+                                 centroid, control, args, seed, trace,
+                                 error.check)
 
-  ts_df$cluster <- attr(dtw_model, "cluster")
-
-  # getting cluster mapping
-
-  cluster_df <- ts_df %>%
-    dplyr::select(case_id, cluster)
-
-  my_list <- list("model" = dtw_model, "cluster_assignment" = cluster_df)
-  return(my_list)
+  # ts_df$cluster <- attr(dtw_model, "cluster")
+  # 
+  # # getting cluster mapping
+  # 
+  # cluster_df <- ts_df %>%
+  #   dplyr::select(case_id, cluster)
+  # 
+  # my_list <- list("model" = dtw_model, "cluster_assignment" = cluster_df)
+  return(dtw_model)
 
 }

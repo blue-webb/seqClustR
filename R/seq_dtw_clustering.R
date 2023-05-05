@@ -24,9 +24,12 @@
 #' @import dplyr
 #' @import dtwclust
 #' @export
-seq_dtw_clustering <- function(eventlog, type, k, ..., preproc, distance,
-                               centroid, control, args, seed, trace,
-                               error.check){
+seq_dtw_clustering <- function(eventlog, type = "partitional", k=2L, ..., 
+                               preproc = NULL, distance="dtw_basic",
+                               centroid = ifelse(type == "fuzzy", "fcm", "pam"),
+                               control = do.call(paste0(type, "_control"), list()), 
+                               args = tsclust_args(), seed = NULL, trace = FALSE,
+                               error.check = TRUE){
 
   df <- dplyr::as_tibble(eventlog) %>%
     dplyr::rename(case_id = attributes(eventlog)$case_id, timestamp = attributes(eventlog)$timestamp,
